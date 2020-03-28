@@ -237,9 +237,12 @@ void* merge(void* args) {
 	cuda::add(m_a->ma6, m_a->ma5, m_a->ma8);
 	m_a->ma8.convertTo(m_a->ma9, CV_8U);
 
+
+	Mat final;
+	ma9.download(final);
 	/* 3.28 */
 	if(access("result.png", F_OK)){
-		imwrite("result.png", m_a->ma9);
+		imwrite("result.png", final);
 	}
 
 	return 0;
