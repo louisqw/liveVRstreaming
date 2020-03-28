@@ -40,7 +40,7 @@ void copy(layer* A, layer* B){
 	A->p5.copyTo(B->p5);
 }
 
-
+/*
 //获取源数据主程序，并将数据上传GPU
 void* get_src(void* arg){
 	int cnt = 1;
@@ -52,8 +52,7 @@ void* get_src(void* arg){
 		}
 		gettimeofday(&start_get, NULL);
 		long st = (long)start_get.tv_sec * 1000000 + (long)start_get.tv_usec;
-		int i=0;
-		while(i < RTSP_SOURCE_NUM) {
+		for(int i = 0; i < RTSP_SOURCE_NUM; ++i) {
 			pthread_mutex_lock(&srclock[i]);
 			if(srcqueue[i].size() == 0){
 				pthread_mutex_unlock(&srclock[i]);
@@ -63,7 +62,6 @@ void* get_src(void* arg){
 			memcpy(yuvsrc[i].data, srcqueue[i].front().img, IN_WIDTH*IN_HEIGHT*3/2);
 			srcqueue[i].pop_front();
 			pthread_mutex_unlock(&srclock[i]);
-			++i;
 		}
 		for(int i=0; i<RTSP_SOURCE_NUM; ++i)yuvsrcb[i].upload(yuvsrc[i]);
 		//cout<<"-------------"<<endl;
@@ -73,6 +71,7 @@ void* get_src(void* arg){
 		gn=0;
 	}
 }
+*/
 
 //图像校正控制主程序
 void* synCtrl(void* arg){
@@ -89,12 +88,15 @@ void* synCtrl(void* arg){
 		gettimeofday(&mmap, NULL);
 		start_map = (long)mmap.tv_sec * 1000000+ (long)mmap.tv_usec;
 
+		/* 3.28 */
 		//get src img
 		for(int i=0; i<5; i++){
-			yuvsrcb[i].copyTo(setup[i]->gpuYuv);
+			
+			//yuvsrcb[i].copyTo(setup[i]->gpuYuv);
 			setup[i]->flag = 0;
 		}
-  
+		
+
    		gn=1;
 			
 		//同步图像校正子线程
@@ -118,7 +120,14 @@ void* correction(void* mArg){
 	while(1){
 		if(data->flag) {usleep(1000);continue;}
 		//color space conversion
-		YUV123(data->gpuMatSrc, data->gpuYuv);
+		//YUV123(data->gpuMatSrc, data->gpuYuv);
+
+		/* 3.28 */
+		char *filename;
+		sprintf(filename, "playground/%d.png", i);
+		Mat tmp = imread(filename);
+		data->gpuMatSrc.upload(tmp);
+
 		//fisheye correction
 		if (data->num == 1) mapping(data->undistorted,data->gpuMatSrc,data->mapGx,data->mapGy);
 		else mapping(data->undistorted,data->gpuMatSrc,data->mapGx,data->mapGy);		
@@ -222,6 +231,11 @@ void* merge(void* args) {
 	cuda::add(m_a->ma6, m_a->ma5, m_a->ma8);
 	m_a->ma8.convertTo(m_a->ma9, CV_8U);
 
+	/* 3.28 */
+	if(!access("result.png", F_OK)){
+		imwrite("result.png", m_a->ma9);
+	}
+
 	return 0;
 }
 
@@ -319,6 +333,8 @@ void* merge_main(void* args){
 	}	 
 }
 
+/*
+
 //编码前的准备，颜色空间转换RGB->YUV，数据下载到cpu
 void* pre_encode(void* args) {
 	merge_all_support* r  = (merge_all_support*)((void**)args)[0];
@@ -362,4 +378,5 @@ void* pre_encode(void* args) {
 	end2_n = end1_n;	  
 	} 
 }
+*/
 
