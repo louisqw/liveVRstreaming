@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <iostream>
-#include<sys/time.h>
+#include <sys/time.h>
 
 #define RTSP_URL1 "rtsp://admin:As123456@10.112.128.250:10001/"
 #define RTSP_URL2 "rtsp://admin:As123456@10.112.128.250:10002/"

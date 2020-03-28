@@ -21,16 +21,8 @@ extern "C"{
 using namespace std;
 using namespace cv;
 
-class preprocess{
-	int dev;
-public:
-	preprocess(int i):dev(i){
-		printf("ID of CUDA device is %d \n", dev);
-		cuda::setDevice(dev);
-	}
-};
 
-preprocess p(5);
+cvGPUinit cvInit(GPU_NUM);
 int bit_rate = BIT_RATE;
 int frame_rate = FRAME_RATE;
 
@@ -139,28 +131,6 @@ int main(int argc, char* argv[]) {
 			case 'b':bit_rate = atoi(optarg);break;
 		}
    	}
-
-	//initialize CUDA device
-	int num_devices = cuda::getCudaEnabledDeviceCount();
-	cout<<num_devices<<endl;
-	if (num_devices <= 0) {
-		cerr << "There is no device." << endl;
-		return -1;
-	}
-	int enabled_device_id = -1;
-	for (int i = 0; i < num_devices; i++) {
-		cuda::DeviceInfo dev_info(i);
-		if (dev_info.isCompatible()) {
-			enabled_device_id = i;
-			break;
-		}
-	}
-	if (enabled_device_id < 0) {
-		cerr << "GPU module isn't built for GPU." << endl;
-		return -1;
-	}
-	cuda::setDevice(enabled_device_id);
-	cout<<enabled_device_id<<endl;
 	
 	struct timeval mread;
 	gettimeofday(&mread, NULL);

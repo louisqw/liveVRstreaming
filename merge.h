@@ -25,6 +25,50 @@ void tmapping_init(int num, int*** mapGx, int*** mapGy);
 void YUV123(GpuMat& gpuMat, GpuMat& gpuMatSrc);
 void YUV321(GpuMat& gpuMat, GpuMat& gpuMatSrc);
 
+class cvGPUinit{
+	int dev;
+public:
+	cvGPUinit(){
+		//initialize CUDA device
+		int num_devices = cuda::getCudaEnabledDeviceCount();
+		cout<<num_devices<<" devices in total"<<endl;
+		if (num_devices <= 0) {
+			cerr << "There is no device." << endl;
+			return ;
+		}
+		int dev = -1;
+		for (int i = 0; i < num_devices; i++) {
+			cuda::DeviceInfo dev_info(i);
+			if (dev_info.isCompatible()) {
+				dev = i;
+				break;
+			}
+		}
+		if (dev < 0) {
+			cerr << "GPU module isn't built for GPU." << endl;
+			return ;
+		}
+		cuda::setDevice(dev);
+		cout<<"using GPU "dev<<endl;
+	}
+	cvGPUinit(int n):dev(n){
+		//initialize CUDA device
+		int num_devices = cuda::getCudaEnabledDeviceCount();
+		cout<<num_devices<<" devices in total"<<endl;
+		if (num_devices <= 0) {
+			cerr << "There is no device." << endl;
+			return ;
+		}
+		cuda::DeviceInfo dev_info(dev);
+		if (!dev_info.isCompatible()) {
+			cerr << "GPU module "<<dev<<" isn't available." << endl;
+			return ;
+		}
+		cuda::setDevice(dev);
+		cout<<"using GPU "dev<<endl;
+	}
+};
+
 //金字塔构建层
 struct layer{
     cuda::GpuMat img_src;
@@ -116,15 +160,7 @@ struct merge_all_support {
 	}
 };
 
-/*
-struct pos {
-	vector<int> u_x;
-	vector<int> d_x;
-	vector<int> l_y;
-	vector<int> r_y;
-	pos() {}
-	pos(vector<int> x1, vector<int> x2, vector<int> y1, vector<int> y2) :u_x(x1), d_x(x2), l_y(y1), r_y(y2) {}
-};*/
+
 struct mapping_setup{
 	cuda::GpuMat undistorted;
 	cuda::GpuMat gpuMatSrc;
