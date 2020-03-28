@@ -3,7 +3,7 @@
 
 using namespace std;
 
-cvGPUinit threadsInit(GPU_NUM);
+//cvGPUinit threadsInit(GPU_NUM);
 
 pthread_mutex_t srclock[5];
 extern pthread_mutex_t lock;
@@ -76,6 +76,7 @@ void* get_src(void* arg){
 
 //图像校正控制主程序
 void* synCtrl(void* arg){
+	GPUinit(GPU_NUM);
 	struct timeval mmap;
 	long start_map = 0;
 	long end_map = 0;
@@ -116,6 +117,7 @@ void* synCtrl(void* arg){
 
 //图像校正子线程，包含颜色空间转换YUV->RGB、图像校正
 void* correction(void* mArg){
+	GPUinit(GPU_NUM);
 	mapping_setup* data = (mapping_setup*) mArg;
 	//setCpu(data->num+6);
 	while(1){
@@ -137,7 +139,8 @@ void* correction(void* mArg){
 }
 
 //构建拉普拉斯金字塔
-void* Pyramid(void* args) {        
+void* Pyramid(void* args) {  
+	GPUinit(GPU_NUM);      
 	//setCpu(*i);
 	while(true){
 		layer* lay=(layer*)((void**)args)[0];
@@ -171,6 +174,7 @@ void* Pyramid(void* args) {
 
 //对多幅图像的金字塔，在同层间进行融合，获得全景帧的拉普拉斯金字塔
 void* merge_part(void* args) { 
+	GPUinit(GPU_NUM);
 	while(true){
 		int* sign=(int*)((void**)args)[8];
 		if(*sign==0){
@@ -208,6 +212,7 @@ void* merge_part(void* args) {
 
 //基于全景帧的拉普拉斯金字塔，重构全景帧
 void* merge(void* args) {
+	GPUinit(GPU_NUM);
 	cuda::GpuMat* img0=(cuda::GpuMat*)((void**)args)[0];
 	cuda::GpuMat* img1=(cuda::GpuMat*)((void**)args)[1];
 	cuda::GpuMat* img2=(cuda::GpuMat*)((void**)args)[2];
@@ -242,6 +247,7 @@ void* merge(void* args) {
 
 //金字塔构建的控制主程序，控制多幅图像的金字塔构建线程的同步
 void* make_pm(void* args){
+	GPUinit(GPU_NUM);
 	mapping_setup** setup = (mapping_setup**) args;
 	int cnt = 1;
 	while(1){
@@ -292,6 +298,7 @@ void* make_pm(void* args){
 
 //融合控制主程序，控制多层融合线程同步，并控制全景帧重构线程
 void* merge_main(void* args){
+	GPUinit(GPU_NUM);
 	int cnt  = 1;
 	Mat* r=(Mat*)((void**)args)[7];
 
