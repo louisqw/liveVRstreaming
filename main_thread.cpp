@@ -372,14 +372,16 @@ int main(int argc, char* argv[]) {
 	pthread_create(&thread3[4], NULL, merge_part, arg4);
 	pthread_create(&thread3[5], NULL, merge_part, arg5);
 
+	/* 3.28
 	//图像编码推流模块
 	pthread_create(&lthread, NULL, pre_encode, arg7);
 	char* rtmpurl = RTMP_URL;
 	pthread_create(&ethread, NULL, encode, (void*)rtmpurl);
+	*/
 	pthread_join(rthread2, NULL);
 	pthread_join(thread0, NULL);
 	pthread_join(thread2, NULL);
-	pthread_join(lthread, NULL);
+	//pthread_join(lthread, NULL); 3.28
 	return 0;
 }
 
