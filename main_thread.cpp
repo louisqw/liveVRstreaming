@@ -286,7 +286,7 @@ int main(int argc, char* argv[]) {
 	pthread_mutex_init(&lock, NULL);
 	pthread_cond_init(&cond, NULL);
 	
-	/* 3.28
+	
 	//源数据读取模块
 	struct argument arg[5];
 	for(int i=0; i<5; ++i)arg[i].index = i;
@@ -295,6 +295,7 @@ int main(int argc, char* argv[]) {
 	strcpy(arg[2].url, RTSP_URL3);
 	strcpy(arg[3].url, RTSP_URL4);
 	strcpy(arg[4].url, RTSP_URL5);
+	/* 3.28
 	pthread_create(&dthread[0], NULL, decode, (void*)&arg[0]);
 	pthread_create(&dthread[1], NULL, decode, (void*)&arg[1]);
 	pthread_create(&dthread[2], NULL, decode, (void*)&arg[2]);

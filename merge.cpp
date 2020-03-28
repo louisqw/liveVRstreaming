@@ -123,7 +123,7 @@ void* correction(void* mArg){
 
 		//YUV123(data->gpuMatSrc, data->gpuYuv);
 		/* 3.28 */
-		char *filename;
+		char *filename = new char[100]();
 		sprintf(filename, "playground/%d.png", data->num);
 		Mat tmp = imread(filename);
 		data->gpuMatSrc.upload(tmp);
