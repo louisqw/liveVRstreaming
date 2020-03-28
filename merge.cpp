@@ -124,7 +124,7 @@ void* correction(void* mArg){
 
 		/* 3.28 */
 		char *filename;
-		sprintf(filename, "playground/%d.png", i);
+		sprintf(filename, "playground/%d.png", data->num);
 		Mat tmp = imread(filename);
 		data->gpuMatSrc.upload(tmp);
 
