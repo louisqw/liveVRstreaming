@@ -120,16 +120,20 @@ void* correction(void* mArg){
 	GPUinit(GPU_NUM);
 	mapping_setup* data = (mapping_setup*) mArg;
 	//setCpu(data->num+6);
+	int load = 1;
 	while(1){
 		if(data->flag) {usleep(1000);continue;}
 		//color space conversion
 
 		//YUV123(data->gpuMatSrc, data->gpuYuv);
 		/* 3.28 */
-		char *filename = new char[100]();
-		sprintf(filename, "playground/%d.png", data->num);
-		Mat tmp = imread(filename);
-		data->gpuMatSrc.upload(tmp);
+		if(load){
+			char *filename = new char[100]();
+			sprintf(filename, "playground/%d.png", data->num);
+			Mat tmp = imread(filename);
+			data->gpuMatSrc.upload(tmp);
+			--load;
+		}
 
 		//fisheye correction
 		if (data->num == 1) mapping(data->undistorted,data->gpuMatSrc,data->mapGx,data->mapGy);
@@ -237,10 +241,9 @@ void* merge(void* args) {
 	cuda::add(m_a->ma6, m_a->ma5, m_a->ma8);
 	m_a->ma8.convertTo(m_a->ma9, CV_8U);
 
-
-	Mat final;
-	ma9.download(final);
 	/* 3.28 */
+	Mat final;
+	m_a->ma9.download(final);
 	if(access("result.png", F_OK)){
 		imwrite("result.png", final);
 	}
