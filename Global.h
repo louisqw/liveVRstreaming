@@ -34,6 +34,8 @@
 #define max(x, y) (x)>(y)?(x):(y)
 #define min(x, y) (x)<(y)?(x):(y)
 
+#define GPU_NUM 5
+
 
 
 
