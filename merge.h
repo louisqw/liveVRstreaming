@@ -45,7 +45,7 @@ public:
 			}
 		}
 		if (dev < 0) {
-			std::cerr << "GPU module isn't built for GPU." << endl;
+			std::cerr << "GPU module isn't built for GPU." << std::endl;
 			return ;
 		}
 		setDevice(dev);
@@ -54,18 +54,18 @@ public:
 	cvGPUinit(int n):dev(n){
 		//initialize CUDA device
 		int num_devices = getCudaEnabledDeviceCount();
-		cout<<num_devices<<" devices in total"<<endl;
+		std::cout<<num_devices<<" devices in total"<< std::endl;
 		if (num_devices <= 0) {
-			cerr << "There is no device." << endl;
+			std::cerr << "There is no device." << std::endl;
 			return ;
 		}
 		DeviceInfo dev_info(dev);
 		if (!dev_info.isCompatible()) {
-			cerr << "GPU module "<<dev<<" isn't available." << endl;
+			std::cerr << "GPU module "<<dev<<" isn't available." << std::endl;
 			return ;
 		}
 		setDevice(dev);
-		cout<<"using GPU "dev<<endl;
+		std::cout<<"using GPU "dev<<std::endl;
 	}
 };
 
