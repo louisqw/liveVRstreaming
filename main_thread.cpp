@@ -304,6 +304,7 @@ int main(int argc, char* argv[]) {
 	pthread_mutex_init(&lock, NULL);
 	pthread_cond_init(&cond, NULL);
 	
+	/* 3.28
 	//源数据读取模块
 	struct argument arg[5];
 	for(int i=0; i<5; ++i)arg[i].index = i;
@@ -318,6 +319,7 @@ int main(int argc, char* argv[]) {
 	pthread_create(&dthread[3], NULL, decode, (void*)&arg[3]);
 	pthread_create(&dthread[4], NULL, decode, (void*)&arg[4]);
 	pthread_create(&rthread2, NULL, get_src, NULL);
+	*/
 
 	//图像校正模块
 	pthread_create(&crThread[0],NULL,correction,(void*) setup[0]);
