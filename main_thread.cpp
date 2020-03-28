@@ -21,6 +21,16 @@ extern "C"{
 using namespace std;
 using namespace cv;
 
+class preprocess{
+	int dev;
+public:
+	preprocess(int i):dev(i){
+		printf("ID of CUDA device is %d \n", dev);
+		cuda::setDevice(dev);
+	}
+};
+
+preprocess p(5);
 int bit_rate = BIT_RATE;
 int frame_rate = FRAME_RATE;
 
