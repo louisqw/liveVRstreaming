@@ -172,7 +172,7 @@ void tmapping_init(int num, int*** mapGx, int*** mapGy) {
 	if(getCudaEnabledDeviceCount()==0){
 		cerr<<"此OpenCV编译的时候没有启用CUDA模块"<<endl;
 	}
-	
+	GPUinit(GPU_NUM);
 	int i,j,k;//计数器
 	int tx;
 	int ty;
