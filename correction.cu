@@ -93,9 +93,11 @@ __global__ void RGB2YUV420P(PtrStepSz<uchar> dst, PtrStepSz<uchar> B, PtrStepSz<
 }
 
 void GPUinit(int num){
-	cudaSetDevice(1);
+	cudaSetDevice(num);
 	return;
 }
+ 
+
 
 //load correction mapping table from file 
 void mapping_init(int num, int*** mapGx, int*** mapGy) {

@@ -21,8 +21,9 @@ extern "C"{
 using namespace std;
 using namespace cv;
 
-
 cvGPUinit cvInit(GPU_NUM);
+
+
 int bit_rate = BIT_RATE;
 int frame_rate = FRAME_RATE;
 
