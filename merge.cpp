@@ -238,7 +238,7 @@ void* merge(void* args) {
 	m_a->ma8.convertTo(m_a->ma9, CV_8U);
 
 	/* 3.28 */
-	if(!access("result.png", F_OK)){
+	if(access("result.png", F_OK)){
 		imwrite("result.png", m_a->ma9);
 	}
 
