@@ -49,7 +49,7 @@ public:
 			return ;
 		}
 		setDevice(dev);
-		std::cout<<"using GPU "dev<<std::endl;
+		std::cout<<"using GPU "<<dev<<std::endl;
 	}
 	cvGPUinit(int n):dev(n){
 		//initialize CUDA device
@@ -65,7 +65,7 @@ public:
 			return ;
 		}
 		setDevice(dev);
-		std::cout<<"using GPU "dev<<std::endl;
+		std::cout<<"using GPU "<<dev<<std::endl;
 	}
 };
 
