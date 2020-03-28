@@ -3,7 +3,7 @@
 
 using namespace std;
 
-cvGPUinit cvInit(GPU_NUM);
+cvGPUinit threadsInit(GPU_NUM);
 
 pthread_mutex_t srclock[5];
 extern pthread_mutex_t lock;
