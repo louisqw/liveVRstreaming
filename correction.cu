@@ -12,11 +12,6 @@
 
 using namespace std;
 
-__global__ void GPUinit(int num){
-	cudaSetDevice(1);
-	return;
-}
- 
 
 //fisheye correction CUDA kernel function
 __global__ void GpuMapping(PtrStepSz<uchar3> dst,PtrStepSz<uchar3> src,int ** mapGx, int ** mapGy){
@@ -97,6 +92,10 @@ __global__ void RGB2YUV420P(PtrStepSz<uchar> dst, PtrStepSz<uchar> B, PtrStepSz<
 	__syncthreads();	
 }
 
+void GPUinit(int num){
+	cudaSetDevice(1);
+	return;
+}
 
 //load correction mapping table from file 
 void mapping_init(int num, int*** mapGx, int*** mapGy) {
