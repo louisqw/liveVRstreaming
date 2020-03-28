@@ -70,6 +70,10 @@ public:
 		GPUinit(dev);
 		std::cout<<"using GPU "<<dev<<std::endl;
 	}
+	void setGPU(int num){
+		setDevice(dev);
+		GPUinit(dev);
+	}
 };
 
 //金字塔构建层

@@ -125,6 +125,7 @@ void setCpu(int n){
 }
 
 int main(int argc, char* argv[]) {
+	cvInit.setGPU(GPU_NUM);
 	int oc;
 	while((oc = getopt(argc, argv, "r:b:")) != -1) {
 		switch(oc) {
