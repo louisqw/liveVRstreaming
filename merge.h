@@ -30,41 +30,41 @@ class cvGPUinit{
 public:
 	cvGPUinit(){
 		//initialize CUDA device
-		int num_devices = cuda::getCudaEnabledDeviceCount();
-		cout<<num_devices<<" devices in total"<<endl;
+		int num_devices = getCudaEnabledDeviceCount();
+		std::cout<<num_devices<<" devices in total"<<std::endl;
 		if (num_devices <= 0) {
-			cerr << "There is no device." << endl;
+			std::cerr << "There is no device." << std::endl;
 			return ;
 		}
 		int dev = -1;
 		for (int i = 0; i < num_devices; i++) {
-			cuda::DeviceInfo dev_info(i);
+			DeviceInfo dev_info(i);
 			if (dev_info.isCompatible()) {
 				dev = i;
 				break;
 			}
 		}
 		if (dev < 0) {
-			cerr << "GPU module isn't built for GPU." << endl;
+			std::cerr << "GPU module isn't built for GPU." << endl;
 			return ;
 		}
-		cuda::setDevice(dev);
-		cout<<"using GPU "dev<<endl;
+		setDevice(dev);
+		std::cout<<"using GPU "dev<<std::endl;
 	}
 	cvGPUinit(int n):dev(n){
 		//initialize CUDA device
-		int num_devices = cuda::getCudaEnabledDeviceCount();
+		int num_devices = getCudaEnabledDeviceCount();
 		cout<<num_devices<<" devices in total"<<endl;
 		if (num_devices <= 0) {
 			cerr << "There is no device." << endl;
 			return ;
 		}
-		cuda::DeviceInfo dev_info(dev);
+		DeviceInfo dev_info(dev);
 		if (!dev_info.isCompatible()) {
 			cerr << "GPU module "<<dev<<" isn't available." << endl;
 			return ;
 		}
-		cuda::setDevice(dev);
+		setDevice(dev);
 		cout<<"using GPU "dev<<endl;
 	}
 };
