@@ -24,6 +24,7 @@ void mapping(GpuMat& gpuMat,GpuMat& gpuMatSrc,int** mapGx,int** mapGy);
 void tmapping_init(int num, int*** mapGx, int*** mapGy);
 void YUV123(GpuMat& gpuMat, GpuMat& gpuMatSrc);
 void YUV321(GpuMat& gpuMat, GpuMat& gpuMatSrc);
+void GPUinit(int num);//3.28
 
 class cvGPUinit{
 	int dev;
@@ -49,6 +50,7 @@ public:
 			return ;
 		}
 		setDevice(dev);
+		GPUinit(dev);
 		std::cout<<"using GPU "<<dev<<std::endl;
 	}
 	cvGPUinit(int n):dev(n){
@@ -65,6 +67,7 @@ public:
 			return ;
 		}
 		setDevice(dev);
+		GPUinit(dev);
 		std::cout<<"using GPU "<<dev<<std::endl;
 	}
 };

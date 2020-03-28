@@ -12,6 +12,10 @@
 
 using namespace std;
 
+__global__ void GPUinit(int num){
+	cudaSetDevice(1);
+	return;
+}
  
 
 //fisheye correction CUDA kernel function
