@@ -81,7 +81,7 @@ void* synCtrl(void* arg){
 	int cnt = 1;
 	mapping_setup** setup = (mapping_setup**) arg;
 	while(1){
-		if(gn==1 || cflag == 0 || cnt>Tcnt+3) {
+		if(cflag == 0) {//gn==1 || cflag == 0 || cnt>Tcnt+3 3.28
 			usleep(1000);
 			continue;
 		}
@@ -120,8 +120,8 @@ void* correction(void* mArg){
 	while(1){
 		if(data->flag) {usleep(1000);continue;}
 		//color space conversion
-		//YUV123(data->gpuMatSrc, data->gpuYuv);
 
+		//YUV123(data->gpuMatSrc, data->gpuYuv);
 		/* 3.28 */
 		char *filename;
 		sprintf(filename, "playground/%d.png", data->num);
@@ -245,7 +245,7 @@ void* make_pm(void* args){
 	int cnt = 1;
 	while(1){
 	
-		if(cflag == 1 || rp == 0 || cnt>Tcnt+2){
+		if(cflag == 1 || rp == 0){//  || cnt>Tcnt+2 3.28
 			usleep(1000);
 			continue;
 		}
@@ -296,7 +296,7 @@ void* merge_main(void* args){
 
 	while(1){
 	
-		if(last==0 || rp == 1 || cnt > Tcnt+1){
+		if(rp == 1){//last==0 || rp == 1 || cnt > Tcnt+1 3.28
 			usleep(1000);
 			continue;
 		}
